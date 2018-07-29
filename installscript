@@ -125,7 +125,7 @@ else
     5_video)
         # Install FFMPEG
         echo "Installing FFMPEG"
-        pacman -S ffmpeg
+        pacman -S ffmpeg --noconfirm
         ;;
 
       esac
