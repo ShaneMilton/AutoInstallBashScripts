@@ -30,6 +30,7 @@ else
         2_video "   OBS-Studio" off
         3_video "   Kdenlive (Video Editor W/Plugins)" off
         4_video "   Blender" off
+        5_video "   FFMPEG" off
     )
     choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
     clear
@@ -119,6 +120,12 @@ else
         # Install Blender 3D
         echo "Installing Blender 3D"
         pacman -S blender --noconfirm
+        ;;
+
+    5_video)
+        # Install FFMPEG
+        echo "Installing FFMPEG"
+        pacman -S ffmpeg
         ;;
 
       esac
