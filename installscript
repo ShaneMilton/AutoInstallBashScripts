@@ -1,524 +1,126 @@
 #!/bin/bash
-# Forked  respin respun forked stolen and modified by DasGeek
-# Tested w/ Elementary OS Loki & Ubuntu 17 and 18.04 LTS 
-# Forked and spooned from some forum post I can no longer find in a galaxy of the internet
-# Thank you to BigDaddyLinux and Skrappjaw for contributing!
-# Version 2.0.0
+
+# Install Script for Arch Linux
+# Forked from Dasgeekchannel AutoInstallBashScripts
+# Version 1.0.0
 
 if [[ $EUID -ne 0 ]]; then
-   	echo "This script must be run as root type: sudo ./installscript" 
-   	exit 1
+  echo "This script must be run as root"
+  exit 1
 else
-	#Update and Upgrade
-	echo "Updating and Upgrading"
-	apt-get update && sudo apt-get upgrade -y
+  # Update and Upgrade
+  echo "Updating and Upgrading"
+  pacman -Syu --noconfirm
 
-	sudo apt-get install dialog 
-	cmd=(dialog --title "DasGeek Installer" --separate-output --checklist "Please Select Software You Want To Install:" 22 80 16)
+  pacman -S dialog --noconfirm
+	cmd=(dialog --title "Shane Milton Photography Installer" --separate-output --checklist "Please Select Software You Want To Install:" 22 80 16)
 	options=(
-		#A "<----Category: Software Repositories---->" on
-			1_repos "	Install Flatpak Repository" off
-			2_repos "	Install Snaps Repository" off
-		#B "<----Category: Notes---->" on 
-	        1_notes "	Simplenote (SNAP)" off
-	    #C "<----Category: Social---->" on
-			1_social "	Mumble Client" off
-	        2_social "	Zoom Meeting Client" off
-	        3_social "	Telegram (SNAP)" off
-	        4_social "	Discord (Snap)" off
-	        5_social "	Hexchat" off
-	        6_social "	Signal" off
-	    #D "<----Category: Tweaks---->" on
-	        1_tweak "	Elementary Tweaks" off
-	        2_tweak "	Ubuntu Restricted Extras" off
-	        3_tweak "	Gnome Tweak Tool" off
-	        4_tweak "	Xfce Monitor Move Script" off
-	    #E "<----Category: Media---->" on  
-	        1_media "	SM Player Media Player" off
-	        2_media "	Pithos (Pandora)" off
-	    	3_media "	Google Desktop Player (SNAP)" off
-	    #F "<----Category: Internet---->" on
-	        1_internet "	Google Chrome" off
-	        2_internet "	Vivaldi" off
-	       	3_internet "	Firefox Browser" off     	
-	       	4_internet "	get-iplayer (SNAP)" off	     
-	    #G "<----Category: Video, Audio & Pic Editing---->" on
-	        1_edit "	Kdenlive" off
-	        2_edit "	Shotwell" off
-	        3_edit "	GIMP" off
-	        4_edit "	OBS-Studio" off
-	        5_edit "	Audacity" off
-	        6_edit "	ffmpeg (latest) (SNAP)" off
-		#H "<----Category: Security---->" on
-			1_security "	PIA VPN (Network Mgr Version)" off
-			2_security "	PIA VPN GUI Version" off
-		#I "<----Category: Utility---->" on
-		    1_utility "	Virtualbox" off
-		    2_utility "	KXStudio Jack Setup (Advanced Audio)" off
-		    3_utility "	Etcher" off
-			4_utility "	Tilix" off
-			5_utility "	Terminator" off
-			6_utility "	Synology NAS Backup" off
-			7_utility "	Gnome-do (Search Tool)" off
-            8_utility "	Catfish - (File Search)" off
-			9_utility "	Guvcview (webcam settings)" off
-			10_utility "	Cheese" off	
-			11_utility "	Fish (command line shell)" off
-		#J "<----Category: Coding & FTP---->" on
-			1_coding "	Pycharm Pro (Pycharm Tools SNAP)" off
-	    	2_coding "	Sublime Text" off # any option can be set to default to "on"
-			3_coding "	Atom" off
-			4_coding "	Putty" off
-			5_coding "	Visual Studio Code" off
-            6_coding "	Gedit" off
-	        7_coding "	Filezilla" off
-		#K "<----Category: Gaming & Fun---->" on
-			1_gaming "	Steam (Valve)" off
-			2_gaming "	Lutris" off
-			3_gaming "	DOSBox-X (SNAP)" off
-			4_gaming "	ScummVM (SNAP)" off
-			5_gaming "	Gnome Twitch Client" off		
-		L "Post Install Auto Clean Up & Update" off)
-		choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
-		clear
-		for choice in $choices
-		do
-		    case $choice in
-# Section A ------------repos----------------------
-	        1_repos)	
-				#Install Flatpak Repo (Software Repository)
-				echo "Installing Flatpak Repository"
-				sudo apt install flatpak -y
-				;;
+    #A "<----Category: Photography Software---->" on
+        1_edit "    Darktable" off
+        2_edit "    Gimp" off
+        3_edit "    Krita" off
+        4_edit "    Gimp-Plugin-Gmic" off
+        5_edit "    Krita-Plugin-Gmic" off
+        6_edit "    Digikam" off
+        7_edit "    Hugin" off
+        8_edit "    Displaycal (Monitor Calibration)" off
+        9_edit "    Geeqie (Color Managed Image Viewer)" off
+    #B "<----Category: Video Software"
+        1_video "   Vlc" off
+        2_video "   OBS-Studio" off
+        3_video "   Kdenlive (Video Editor W/Plugins)" off
+        4_video "   Blender" off
+    )
+    choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+    clear
+    for choice in $choices
+    do
+      case $choice in
 
-			2_repos)	
-				#Install Snap Repository (Software Repository)
-				echo "Installing Snap Repository"
-				sudo apt install snapd -y
-				;;
-# Section B -------notes---------------------------
+# Section A ----Photography Software----
 
-			1_notes)
-			    #Simplenote (SNAP)
-				echo "Installing Simplenote"
-				apt install snapd
-				snap install simplenote
-				;;
-# Section C --------social-------------------------
+    1_edit)
+        # Install Darktable
+        echo "Installing Darktable RAW Editor"
+        pacman -S darktable --noconfirm
+        ;;
 
-			1_social)
-				#Mumble Client
-				echo "Mumble"
-				add-apt-repository ppa:mumble/release
-				apt-get update
-				apt-get install mumble -y
-				;;		
+    2_edit)
+        # Install Gimp
+        echo "Installing Gimp Image Editor"
+        pacman -S gimp --noconfirm
+        ;;
 
-			2_social)
-				#Zoom
-				echo "Installing Zoom Meeting Client"
-				echo "Installing dependency first First"				
-				apt install libxcb-xtest0 -y
-				cd ~/Downloads		
-				wget https://zoom.us/client/latest/zoom_amd64.deb
-				sudo dpkg -i zoom_amd64.deb
-				rm -rf zoom_amd64.deb
-				;;
-			3_social)
-				#Telegram
-				echo "Telegram Snap"
-				sudo apt install snapd
-				sudo snap install telegram-desktop
-				;;
+    3_edit)
+        # Install krita
+        echo "Installing Krita"
+        pacman -S krita --noconfirm
+        ;;
 
-			4_social)
-				#Discord
-				sudo apt install snapd
-				sudo snap install discord
-				;;
+    4_edit)
+        # Install Gimp-Plugin-Gmic
+        echo "Installing Gmic Gimp Plugin"
+        pacman -S gimp-plugin-gmic --noconfirm
+        ;;
 
-			5_social)	
-				#Hexchat
-				echo "Installing Hexchat"
-				apt install hexchat -y
-				;;
-			
-			6_social) 
-				#Signal
-				echo "Installing Signal Messenger"
-				sudo apt-get install curl -y
-				curl -s https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -				
-         		echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
-    			sudo apt update && sudo apt install signal-desktop -y
-    			;;
+    5_edit)
+        # Install Krita-Plugin-Gmic
+        echo "Installing Gmic Krita Plugin"
+        pacman -S krita-plugin-gmic --noconfirm
+        ;;
 
-# Section D -----------tweak-----------------------
+    6_edit)
+        # Install Digikam
+        echo "Installing Digikam"
+        pacman -S digikam --noconfirm
+        ;;
 
-			1_tweak)
-				#Elementary OS Tweaks
-				echo "Installing Elementary Tweaks"
-				sudo apt-get install software-properties-common
-				sudo apt-get update
-				sudo apt-get install elementary-tweaks -y
-				;;
-			2_tweak)
-				#Ubuntu Restricted Extras
-				echo "Installing Ubuntu Restricted Extras"
-				apt install ubuntu-restricted-extras -y
-				;;
-			
-			3_tweak)
-				#Gnome tweak tool
-				echo "Installing Gnome Tweak Tool"
-				apt install gnome-tweak-tool -y
-				;;
+    7_edit)
+        # Install Hugin
+        echo "Installing Hugin"
+        pacman -S hugin --noconfirm
+        ;;
 
-			4_tweak) 
-				#Install monitor move window script Xfce
-				echo "Monitor move window script"
-				wget https://raw.githubusercontent.com/dasgeekchannel/move-to-next-monitor/master/move-to-next-monitor
-				cd ~/Documents
-				currentuser=$(who | awk 'NR==1{print $1}')
-				chmod +x ~/Documents/move-to-next-monitor
-		    	chown -R $currentuser:$currentuser ~/Documents/move-to-next-monitor
-				;;
+    8_edit)
+        # Install Displaycal
+        echo "Installing Displaycal"
+        pacman -S displaycal --noconfirm
+        ;;
 
-# Section E -------------media---------------------
+    9_edit)
+        # Install Geeqie
+        echo "Installing Geeqie"
+        pacman -S geeqie --noconfirm
+        ;;
 
-			1_media)
-				#SMPlayer
-				echo "SMPlayer"
-				apt install smplayer -y
-				;;
+# Section B ----Video Software----
 
-			2_media) 
-				#Pithos
-				echo "installing Pithos"
-				apt install pithos -y
-				;;
+    1_video)
+        # Install VLC
+        echo "Installing VLC"
+        pacman -S vlc --noconfirm
+        ;;
 
-			3_media) 
-				#Google Desktop Player (SNAP)
-				echo "Installing Google Desktop Player"
-				apt install snapd
-				snap install google-play-music-desktop-player
-				;;
-# Section F -------------internet--------------------
-			1_internet)
-				#Chrome
-				echo "Installing Google Chrome"
-				wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-				sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-				apt-get update 
-				apt-get install google-chrome-stable -y
-				;;
-			2_internet)
-				#Vivaldi
-				echo "Installing Vivaldi"
-				cd ~/Downloads				
-				wget https://downloads.vivaldi.com/stable/vivaldi-stable_1.14.1077.55-1_amd64.deb
-				dpkg -i vivaldi-stable_1.14.1077.55-1_amd64.deb
-				apt-get install -f -y
-				rm -rf vivaldi-stable_1.14.1077.55-1_amd64.deb
-				;;
-			3_internet)
-				#Firefox Browser
-				echo "Firefox"
-				apt install firefox -y
-				;;
-			4_internet) #get-iplayer (SNAP)
-				echo "get-iplayer"
-				apt install snapd
-				snap install get-iplayer
-				;;
-	# Section G -------------edit(Video/Audio/Pic)---------------------	
-			1_edit)
-				#Kdenlive
-				echo "Kdenlive"
-				apt-get install kdenlive -y
-				apt-get install breeze-icon-theme -y
-				apt-get install vlc -y
-				;;
-				
-			2_edit)	
-				#Shotwell
-				echo "Installing Shotwell"
-				apt install shotwell -y
-				;;            
-    		
-			3_edit)
-				#GIMP (SNAP)
-				echo "Installing GIMP"
-				apt install snapd
-				snap install gimp
-				;;
+    2_video)
+        # Install OBS-Studio
+        echo "Installing OBS-STUDIO"
+        pacman -S obs-studio --noconfirm
+        ;;
 
-			4_edit)
-				#OBS Studio
-				echo "Installing OBS Studio"
-				#apt install snapd
-				#snap install obs-studio
-				apt-get install ffmpeg -y
-				add-apt-repository ppa:obsproject/obs-studio
- 				apt-get update && sudo apt-get install obs-studio -y
-				;;	
+    3_video)
+        # Install Kdenlive
+        echo "Installing Kdenlive"
+        pacman -S kdenlive --noconfirm
+        pacman -S frei0r-plugins --noconfirm
+        pacman -S breeze-icons --noconfirm
+        ;;
 
-			5_edit) 
-				#Audacity
-				echo "installing Audacity"
-				apt install audacity -y
-				;;
+    4_video)
+        # Install Blender 3D
+        echo "Installing Blender 3D"
+        pacman -S blender --noconfirm
+        ;;
 
-			6_edit) 
-				#ffmpeg (latest) (SNAP)
-				echo "Installing ffmpeg"
-				sudo apt remove ffmpeg -y
-				apt install snapd
-				snap install ffmpeg --classic
-				;;
-
-	# Section H -----------security-----------------------	
-			1_security)	
-				#PIA VPN NM Version
-				echo "Installing PIA VPN Network Manager Version"
-				cd ~/Downloads				
-				wget https://www.privateinternetaccess.com/installer/install_ubuntu.sh
-				sudo sh ./install_ubuntu.sh
-				echo "After entering username, go to network manager and turn on VPN and select from PIA locations, enter password and boom!"
-				;;
-
-			2_security)	
-				#PIA VPN GUI
-				echo "PIA VPN GUI VERSION"
-				alias directory_change='(cd ~/Downloads )'
-				directory_change	
-				wget -nc -O piavpn.tar.gz https://installers.privateinternetaccess.com/download/pia-v81-installer-linux.tar.gz
-				tar -xzf piavpn.tar.gz
-				mv pia-v81-installer-linux.sh piavpn.sh
-				chmod +x piavpn.sh
-				currentuser=$(who | awk 'NR==1{print $1}')
-				sudo chown -R $currentuser:$currentuser ~/.pia_manager
-				sudo -u "$currentuser" ./piavpn.sh
-				sleep 5
-				#rm -rf piavpn.tar.gz
-				;;
-	
-	# Section I ----------utility------------------------	
-
-    		1_utility)	
-    			#Virtualbox
-				echo "Installing Virtualbox"
-				sudo apt install virtualbox -y
-				;;
-
-			2_utility) 
-				#Advanced Jack Audio Setup
-				echo "installing KXStudio Jack"
-				# Get user name for permissions
-				#echo "Enter your username"
-				#read -p 'Username: ' uservar
-				# Install required dependencies if needed
-				apt-get install apt-transport-https software-properties-common wget
-				wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_9.5.1~kxstudio3_all.deb
-				# Install it
-				sudo dpkg -i kxstudio-repos_9.5.1~kxstudio3_all.deb
-				apt-get install libglibmm-2.4-1v5 -y
-				wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos-gcc5_9.5.1~kxstudio3_all.deb
-				dpkg -i kxstudio-repos-gcc5_9.5.1~kxstudio3_all.deb
-				currentuser=$(who | awk 'NR==1{print $1}')
-					sudo usermod -a -G audio $currentuser
-					sudo apt update && sudo apt upgrade -y
-					apt install jackd2-firewire -y
-					apt install -y jackd2 carla-git cadence non-mixer pulseaudio-module-jack mididings -y
-					# Download auto script github
-					cd ~/
-					mkdir jacksetup
-					cd ~/jacksetup
-					wget https://raw.githubusercontent.com/Skrappjaw/audio-scripts/master/start_jack.sh
-					chmod +x ~/jacksetup/start_jack.sh
-					chown -R $currentuser:$currentuser ~/jacksetup
-				# Optional to put script into autostart
-				#cd ~/
-				#cp ~/jacksetup/start_jack.sh /etc/init.d/
-				#update-rc.d start_jack.sh defaults
-				;; 
-
-			3_utility) 
-				#Etcher ISO Creator
-				echo "Installing Etcher"
-				cd ~/Downloads
-				wget -O etcher.zip https://github.com/resin-io/etcher/releases/download/v1.4.4/etcher-electron-1.4.4-linux-x64.zip
-				sudo apt install unzip -y
-				unzip etcher*.zip
-				chmod +x ~/Downloads/etcher-*.AppImage
-				;;
-
-			4_utility) 
-				#Tilix (Tiling Terminal)
-				echo "Installing Tilix"
-				apt install tilix -y
-				;;
-
-			5_utility)
-				#Terminator
-				echo "Installing Skynet/Terminator"
-				apt install terminator -y
-				;;
-
-			6_utility) 
-				#Synology NAS Assistant & Backup
-				echo "Installing Syn Assist, CloudStation Backup"
-				wget -O synassistant.deb https://global.download.synology.com/download/Tools/Assistant/6.1-15163/Ubuntu/x86_64/synology-assistant_6.1-15163_amd64.deb
-				sudo dpkg -i synassistant*.deb
-				apt-get install -f -y
-				rm -rf synassistant*.deb
-				wget -O cloudback.deb https://global.download.synology.com/download/Tools/CloudStationBackup/4.2.6-4408/Ubuntu/Installer/x86_64/synology-cloud-station-backup-4408.x86_64.deb
-				sudo dpkg -i cloudback*.deb
-				apt-get install -f -y
-				rm -rf cloudback*.deb
-				;;
-
-			7_utility) 
-				#Gnome-do
-				echo "Installing GnomeDo"
-				apt install gnome-do -y
-				apt install gnome-do-plugins -y
-				;;
-
-			8_utility) 
-				#Install Catfish
-				echo "Installing Catfish"
-				sudo apt install catfish -y
-				;;
-
-			9_utility) 
-				#Guvcview
-				echo "installing Guvcview"
-				apt install libgsl2 -y
-				apt install libguvcview-1.1-1 -y
-				apt install guvcview -y
-				;;
-
-			10_utility) 
-				#Cheese
-				echo "Installing Cheese"
-				apt install cheese -y
-				;;
-			
-			11_utility) 
-				#Fish
-				echo "Installing Fish"
-				apt install fish -y
-				echo "Installing Fish"
-				;;
-	# Section J -----------coding-----------------------	
-
-			1_coding) 	
-				#Python Tools (Dev Testing)
-				echo "Installing Python Tools"
-				#Install PIP
-				sudo apt-get install -y python3-pip
-				#Install packages and dev tools
-				sudo apt-get install build-essential libssl-dev libffi-dev python-dev -y
-				#Pycharm 
-				apt install openjdk-8-jdk -y
-				apt install python3-setuptools -y
-				#Install SNAP
-				sudo apt install snapd -y
-				sudo snap install pycharm-professional
-				;;
-
-	        2_coding)
-	            #Install Sublime Text*
-				echo "Installing Sublime Text"
-				wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-				sudo apt-get install apt-transport-https
-				echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-				sudo apt update
-				sudo apt install sublime-text -y
-				;;
-
-			3_coding)	
-				#Atom
-				echo "Installing Atom"				
-				cd ~/Downloads			
-				wget -O atom-amd64.deb https://atom.io/download/deb			
-				dpkg -i atom-amd64.deb
-				apt-get install -f -y
-				rm -rf atom-amd64.deb
-				apm install atom-html-preview
-				;;
-
-			4_coding)	
-				#Putty
-				echo "Putty"
-				apt install putty -y
-				;;
-
-			5_coding)
-				#Visual Studio Code
-				echo "Visual Studio Code"
-				wget -O visualstudio.deb https://go.microsoft.com/fwlink/?LinkID=760868
-				dpkg -i visualstudio.deb
-				;;
-	
-			6_coding)	
-				#Install Gedit
-				echo "Gedit"
-				apt install gedit -y
-				;;
-			
-			7_coding)
-				#Filezilla
-				echo "Filezilla not related to Godzilla"
-				apt install filezilla -y
-				;;
-			
-	# Section K -----------game-----------------------	
-			1_gaming)
-				#Steam
-				echo "Installing Steam"				
-				apt install steam -y
-				;;
-
-			2_gaming)
-				#Lutris
-				echo "Installing Lutris"
-				ver=$(lsb_release -sr); if [ $ver != "17.10" -a $ver != "17.04" -a $ver != "16.04" ]; then ver=16.04; fi
-				echo "deb http://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/ ./" | sudo tee /etc/apt/sources.list.d/lutris.list
-				wget -q http://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/Release.key -O- | sudo apt-key add -
-				sudo apt-get update
-				sudo apt-get install lutris -y
-				;;
-
-			3_gaming) 
-				#DOSBox-X (SNAP)
-				echo "Installing DOSBox-X"
-				apt install snapd
-				snap install dosbox-x
-				;;
-			
-			4_gaming)
-				#ScummVM (SNAP)
-				echo "Installing ScummVM"
-				apt install snapd
-				snap install scummvm
-				;;
-
-			5_gaming) 
-				#Gnome Twitch Client
-				echo "installing Gnome Twitch"
-				apt install gnome-twitch -y
-				;;
-			
-			L)  
-				#Clean up
-				echo "Running Clean Up And Update"
-				sudo apt update
-				sudo apt upgrade
-				sudo apt-get autoremove
-				;;
-	
-	    esac
-	done
+      esac
+  done
 fi
