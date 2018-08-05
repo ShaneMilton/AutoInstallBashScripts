@@ -25,12 +25,16 @@ else
         7_edit "    Hugin" off
         8_edit "    Displaycal (Monitor Calibration)" off
         9_edit "    Geeqie (Color Managed Image Viewer)" off
-    #B "<----Category: Video Software"
+       10_edit "    Colord-KDE (Colord Support for KDE)" off
+    #B "<----Category: Video Software---->" on
         1_video "   Vlc" off
         2_video "   OBS-Studio" off
         3_video "   Kdenlive (Video Editor W/Plugins)" off
         4_video "   Blender" off
         5_video "   FFMPEG" off
+    #C "<----Category: Audio Tools---->" on
+        1_audio "   Audacity" off
+        2_audio "   Ardour (DAW W/Video plugins)" off
     )
     choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
     clear
@@ -94,6 +98,11 @@ else
         pacman -S geeqie --noconfirm
         ;;
 
+    10_edit)
+        # Install Colord-KDE
+        echo "Installing Colord-KDE"
+        pacman -S colord-kde --noconfirm
+
 # Section B ----Video Software----
 
     1_video)
@@ -126,6 +135,22 @@ else
         # Install FFMPEG
         echo "Installing FFMPEG"
         pacman -S ffmpeg --noconfirm
+        ;;
+
+# Section C ----Audio Tools----
+
+    1_audio)
+        # Install Audacity
+        echo Installing Audacity
+        pacman -S audacity --noconfirm
+        ;;
+
+    2_audio)
+        # Install Ardour
+        echo "Installing Ardour"
+        pacman -S ardour --noconfirm
+        pacman -S harvid --noconfirm
+        pacman -S xjadeo --noconfirm
         ;;
 
       esac
