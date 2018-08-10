@@ -102,6 +102,7 @@ else
         # Install Colord-KDE
         echo "Installing Colord-KDE"
         pacman -S colord-kde --noconfirm
+        ;;
 
 # Section B ----Video Software----
 
