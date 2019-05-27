@@ -35,6 +35,30 @@ else
     #C "<----Category: Audio Tools---->" on
         1_audio "   Audacity" off
         2_audio "   Ardour (DAW W/Video plugins)" off
+
+    #D "<----Category: KDE Plasma Tools---->" on
+        1_kde "     plasma-desktop" off
+        2_kde "     KCM-Config" off
+        3_kde "     KDE-GTk-Config" off
+        4_kde "     breeze-gtk" off
+        5_kde "     dolphin" off
+        6_kde "     ark-for-zip" off
+        7_kde "     plasma-nm" off
+        8_kde "     plasma-pa" off
+        9_kde "     plasma-browser-integration" off
+        10_kde "     bluedevil" off
+        11_kde "        kde-plasma-addons" off
+        12_kde "        kgamma5" off
+        13_kde "        kinfocenter" off
+        14_kde "        kscreen" off
+        15_kde "        ksshaskpass" off
+        16_kde "        ksysguard" off
+        17_kde "        kwrited" off
+        18_kde "        oxygen" off
+        19_kde "        plasma-wallpapers" off
+        20_kde "        user-manager" off
+        21_kde "        powerdevil" off
+        22_kde "        xdg-desktop-kde" off
     )
     choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
     clear
@@ -152,6 +176,124 @@ else
         pacman -S ardour --noconfirm
         pacman -S harvid --noconfirm
         pacman -S xjadeo --noconfirm
+        ;;
+
+# Section D ----KDE Plasma Tools----
+    1_kde)
+        # Install Plasma Desktop
+        echo "Installing Plasma-Desktop"
+        pacman -S plasma-desktop --noconfirm
+        ;;
+
+    2_kde)
+        # Install ssdm-kcm
+        echo "Installing ssdm-kcm"
+        pacman -S sddm-kcm --noconfirm
+        ;;
+
+    3_kde)
+        # Install kde-gtk-config
+        echo "Installing kde-gtk-config"
+        pacman -S kde-gkt-config --noconfirm
+        ;;
+
+    4_kde)
+        # Install breeze-gtk
+        echo "Installing breeze-gtk"
+        pacman -S breeze-gtk --noconfirm
+        ;;
+
+    5_kde)
+        # Install Dolphin File Manager
+        echo "Installing dolphin"
+        pacman -S dolphin --noconfirm
+        ;;
+
+    6_kde)
+        # Install ark
+        echo "Installing Ark"
+        pacman -S ark --noconfirm
+        ;;
+
+    7_kde)
+        # Install plasma-nm
+        echo "Installing plasma-nm"
+        pacman -S plasma-nm --noconfirm
+        ;;
+
+    8_kde)
+        # Install plasma-pa
+        pacman -S plasma-pa --noconfirm
+        ;;
+
+    9_kde)
+        # Install plasma-browser-integration
+        pacman -S plasma-browser-integration --noconfirm
+        ;;
+
+    10_kde)
+        # Install bluedevil
+        pacman -S bluedevil --noconfirm
+        ;;
+
+    11_kde)
+        # Install kdeplasma-addons
+        pacman -S kdeplasma-addons --noconfirm
+        ;;
+
+    12_kde)
+        # Install kgamma5
+        pacman -S kgamma5 --noconfirm
+        ;;
+
+    13_kde)
+        # Install kinfocenter
+        pacman -S kinfocenter --noconfirm
+        ;;
+
+    14_kde)
+        # Install kscreen
+        pacman -S kscreen --noconfirm
+        ;;
+
+    15_kde)
+        # Install ksshaskpass
+        pacman -S ksshaskpass --noconfirm
+        ;;
+
+    16_kde)
+        # Install ksysguard
+        pacman -S ksysguard --noconfirm
+        ;;
+
+    17_kde)
+        # Install kwrited
+        pacman -S kwrited --noconfirm
+        ;;
+
+    18_kde)
+        # Install oxygen
+        pacman -S oxygen --noconfirm
+        ;;
+
+    19_kde)
+        # Install plasma wallpapers
+        pacman -S plasma-workspace-wallpapers --noconfirm
+        ;;
+
+    20_kde)
+        # Install user-manager
+        pacman -S user-manager --noconfirm
+        ;;
+
+    21_kde)
+        # Install powerdevil
+        pacman -S powerdevil --noconfirm
+        ;;
+
+    22_kde)
+        # Install xdg-desktop-portal-kde
+        pacman -S xdg-desktop-portal-kde --noconfirm
         ;;
 
       esac
